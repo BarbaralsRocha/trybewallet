@@ -1,0 +1,22 @@
+.forms {
+  align-items: center;
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  margin: 20% 0;
+}
+
+.forms input {
+  margin: 5px;
+  padding: 10px;
+}
+
+.forms button {
+  padding: 5px;
+  width: 200px;
+}
+
+.forms button:hover {
+  background-color: rgb(9, 136, 83);
+  color: white;
+}
