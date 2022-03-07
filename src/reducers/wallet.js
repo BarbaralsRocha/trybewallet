@@ -1,18 +1,17 @@
 // Esse reducer será responsável por tratar o todas as informações relacionadas as despesas
 const INITIAL_STATE = {
-  currency: [],
+  currencies: [],
   expenses: [],
   expenseWallet: {},
 };
 
 const wallet = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-  case 'INFO_DATA': {
+  case 'EXCHANGE':
     return {
       ...state,
-      currency: Object.keys(action.expenses),
+      currencies: action.currencies,
     };
-  }
   case 'SAVE_WALLET':
     return { ...state,
       expenses: [...state.expenses, action.expenses],
@@ -21,13 +20,20 @@ const wallet = (state = INITIAL_STATE, action) => {
     return { ...state,
       expenses: action.expenses,
     };
+
   case 'FIELD':
     return {
       ...state,
       expenseWallet: { ...action.valueExpenses },
     };
+  case 'EDIT_EXPENSE':
+    return {
+      ...state,
+      editExpenses: action.bool,
+      getInfosEdit: action.infos,
+    };
   default:
-    return { ...state, ...action };
+    return state;
   }
 };
 

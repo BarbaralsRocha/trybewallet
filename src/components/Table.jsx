@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { RiDeleteBin6Line } from 'react-icons/ri';
 import './Table.css';
-import { deleteWalett, fieldAct } from '../actions';
-// Descrição, Tag, Método de pagamento, Valor, Moeda, Câmbio utilizado, Valor convertido, Moeda de conversão e Editar/Excluir
+import { deleteWallet, fieldAct, stateEdit } from '../actions';
+
 class Table extends React.Component {
     currency = (coin) => {
       const exchange = coin.exchangeRates;
@@ -19,19 +19,19 @@ class Table extends React.Component {
 
     exchange = (infos) => {
       const exchange = this.currency(infos);
-      return Number(exchange.ask).toFixed(2);
+      return parseFloat(exchange.ask);
     }
 
     convertedValue = (infos) => {
       const { value } = infos;
-      const valueExchange = ((this.exchange(infos)) * Number(value)).toFixed(2);
+      const valueExchange = ((this.exchange(infos)) * parseFloat(value)).toFixed(2);
       return valueExchange;
     }
 
     deleteExpense = (infos) => {
       const { savedInfos, dispatch } = this.props;
       const newStateData = savedInfos.filter((wallet) => wallet !== infos);
-      dispatch(deleteWalett(newStateData));
+      dispatch(deleteWallet(newStateData));
     }
 
     getExpenses = () => {
@@ -45,21 +45,28 @@ class Table extends React.Component {
       return allValues;
     }
 
+    editExpenses = (infos) => {
+      const { dispatch } = this.props;
+      dispatch(stateEdit(true, infos));
+      // const newInfos = savedInfos.filter((sameId) => sameId.id === infos.id);
+      // dispatch(editWallet(newInfos));
+    }
+
     render() {
       const { savedInfos } = this.props;
       this.getExpenses();
       return (
         <tbody>
           {
-            savedInfos.map((infos) => (
+            savedInfos && savedInfos.map((infos) => (
               <tr className="dados" key={ infos.id }>
                 <td>{infos.description}</td>
                 <td>{infos.tag}</td>
                 <td>{infos.method}</td>
-                <td>{`R$ ${Number(infos.value).toFixed(2)}`}</td>
+                <td>{`${parseFloat(infos.value).toFixed(2)}`}</td>
                 <td>{this.currencyName(infos)}</td>
-                <td>{`R$ ${this.exchange(infos)}`}</td>
-                <td>{`R$ ${this.convertedValue(infos)}`}</td>
+                <td>{`${this.exchange(infos)}`}</td>
+                <td>{`${this.convertedValue(infos)}`}</td>
                 <td>Real Brasileiro</td>
                 <td>
                   <button
@@ -69,6 +76,13 @@ class Table extends React.Component {
                   >
                     <RiDeleteBin6Line />
                   </button>
+                  {/* <button
+                    data-testid="edit-btn"
+                    type="button"
+                    onClick={ () => this.editExpenses(infos) }
+                  >
+                    Editar
+                  </button> */}
                 </td>
               </tr>
             ))
