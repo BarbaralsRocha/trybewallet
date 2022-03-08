@@ -19,12 +19,12 @@ class Table extends React.Component {
 
     exchange = (infos) => {
       const exchange = this.currency(infos);
-      return parseFloat(exchange.ask);
+      return Number(exchange.ask);
     }
 
     convertedValue = (infos) => {
       const { value } = infos;
-      const valueExchange = ((this.exchange(infos)) * parseFloat(value)).toFixed(2);
+      const valueExchange = ((this.exchange(infos)) * parseFloat(value));
       return valueExchange;
     }
 
@@ -65,9 +65,9 @@ class Table extends React.Component {
                 <td>{infos.method}</td>
                 <td>{`${parseFloat(infos.value).toFixed(2)}`}</td>
                 <td>{this.currencyName(infos)}</td>
-                <td>{`${this.exchange(infos)}`}</td>
-                <td>{`${this.convertedValue(infos)}`}</td>
-                <td>Real Brasileiro</td>
+                <td>{`${this.exchange(infos).toFixed(2)}`}</td>
+                <td>{`${this.convertedValue(infos).toFixed(2)}`}</td>
+                <td>Real</td>
                 <td>
                   <button
                     data-testid="delete-btn"

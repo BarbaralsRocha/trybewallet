@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { deleteWallet, editWallet, infoData, moedaAPI, newRequisitionCoins } from '../actions';
+import { infoData, moedaAPI, newRequisitionCoins } from '../actions';
 import HeadTable from '../components/HeadTable';
 import Table from '../components/Table';
 import '../components/Wallet.css';
@@ -31,7 +31,7 @@ class Wallet extends React.Component {
 
     handleClick=() => {
       const { id, value, description, currency, method, tag } = this.state;
-      const { dispatch, currencyExchange, isEditExpenses, edit } = this.props;
+      const { dispatch, isEditExpenses, edit } = this.props;
       // console.log(isEditExpenses);
       // console.log(edit);
       const infoWalletExpense = {
@@ -70,7 +70,7 @@ class Wallet extends React.Component {
 
     render() {
       // this.getCurrency();
-      const { email, currencyKeys, fieldState, isEditExpenses, savedInfos} = this.props;
+      const { email, currencyKeys, fieldState, isEditExpenses } = this.props;
       const { value, description, currency, method, tag } = this.state;
       const metodoPagamento = ['Dinheiro', 'Cartão de crédito', 'Cartão de débito'];
       const despesaDiversas = ['Alimentação', 'Lazer', 'Trabalho', 'Transporte', 'Saúde'];
@@ -197,11 +197,11 @@ const mapStateToProps = (state) => ({
 
 Wallet.propTypes = {
   email: PropTypes.string.isRequired,
-  currencyExchange: PropTypes.objectOf(PropTypes.object).isRequired,
   fieldState: PropTypes.objectOf(PropTypes.string).isRequired,
   dispatch: PropTypes.func.isRequired,
   isEditExpenses: PropTypes.bool.isRequired,
   edit: PropTypes.objectOf(PropTypes.object).isRequired,
+  currencyKeys: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 export default connect(mapStateToProps)(Wallet);

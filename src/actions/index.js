@@ -20,7 +20,6 @@ export const moedaAPI = () => (dispatch) => {
     .then((response) => response.json())
     .then((data) => {
       delete data.USDT;
-      console.log('data');
       dispatch(exchangeAction(data));
     });
 };
