@@ -70,19 +70,19 @@ class Table extends React.Component {
                 <td>Real</td>
                 <td>
                   <button
+                    data-testid="edit-btn"
+                    type="button"
+                    onClick={ () => this.editExpenses(infos) }
+                  >
+                    Editar
+                  </button>
+                  <button
                     data-testid="delete-btn"
                     type="button"
                     onClick={ () => this.deleteExpense(infos) }
                   >
                     <RiDeleteBin6Line />
                   </button>
-                  {/* <button
-                    data-testid="edit-btn"
-                    type="button"
-                    onClick={ () => this.editExpenses(infos) }
-                  >
-                    Editar
-                  </button> */}
                 </td>
               </tr>
             ))

@@ -10,7 +10,8 @@ const wallet = (state = INITIAL_STATE, action) => {
   case 'EXCHANGE':
     return {
       ...state,
-      currencies: action.currencies,
+      currencies: Object.keys(action.currencies),
+      currenciesExchange: action.currencies,
     };
   case 'SAVE_WALLET':
     return { ...state,
@@ -19,6 +20,11 @@ const wallet = (state = INITIAL_STATE, action) => {
   case 'DELETE_WALLET':
     return { ...state,
       expenses: action.expenses,
+    };
+  case 'CHANGE_WALLET':
+    return { ...state,
+      expenses: state.expenses
+        .map((change) => ((change.id === action.expenses.id) ? action.expenses : change)),
     };
 
   case 'FIELD':

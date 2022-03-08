@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { infoData, moedaAPI, newRequisitionCoins } from '../actions';
+import { editWallet, moedaAPI, newRequisitionCoins } from '../actions';
 import HeadTable from '../components/HeadTable';
 import Table from '../components/Table';
 import '../components/Wallet.css';
@@ -32,8 +32,6 @@ class Wallet extends React.Component {
     handleClick=() => {
       const { id, value, description, currency, method, tag } = this.state;
       const { dispatch, isEditExpenses, edit } = this.props;
-      // console.log(isEditExpenses);
-      // console.log(edit);
       const infoWalletExpense = {
         id,
         value,
@@ -43,22 +41,17 @@ class Wallet extends React.Component {
         tag,
       };
       if (isEditExpenses) {
-        const editInfosWallet = Object.assign(edit, infoWalletExpense);
-        dispatch(infoData(editInfosWallet));
+        dispatch(editWallet({
+          ...infoWalletExpense, id: edit.id, exchangeRates: edit.exchangeRates,
+        }));
       } else {
         dispatch(newRequisitionCoins(infoWalletExpense));
+        this.setState({
+          id: id + 1,
+          ...initialState,
+        });
       }
-
-      this.setState({
-        id: id + 1,
-        ...initialState,
-      });
     }
-
-    // getCurrency = () => {
-    //   const { currencyExchange } = this.props;
-    //   return Object.keys(currencyExchange);
-    // }
 
     getExpenses = () => {
       const { fieldState } = this.props;
@@ -188,8 +181,8 @@ class Wallet extends React.Component {
 
 const mapStateToProps = (state) => ({
   email: state.user.email,
-  currencyExchange: state.wallet.currencies,
-  currencyKeys: Object.keys(state.wallet.currencies),
+  currencyExchange: state.wallet.currenciesExchange,
+  currencyKeys: state.wallet.currencies,
   fieldState: state.wallet.expenseWallet,
   isEditExpenses: state.wallet.editExpenses,
   edit: state.wallet.getInfosEdit,
